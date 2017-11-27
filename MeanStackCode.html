@@ -1,0 +1,117 @@
+<!-- Submitted By Sunil Kumar -->
+
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>Employees</title>
+      <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"></script>
+      <script src="mainApp.js"></script>
+      <script src="employeeController.js"></script>	
+      <link rel="stylesheet" href="employee.css">
+   </head>
+   <body>
+      <div ng-app="mainApp" ng-controller="employeeController">
+         <h2>Employee Application</h2>
+         <form name="employeeForm" novalidate >
+            <fieldset>
+               <h3  ng-show="!editMode">Add an Employee</h3>
+               <h3  ng-show="editMode">Update an Employee</h3>
+               <table border="0" id="formTable">
+                  <tr>
+                     <td>First Name:</td>
+                     <td>
+                        <input name="firstname" type="text" ng-model="employees.firstName" required >
+                        <span  ng-show="(employeeForm.firstname.$dirty || submitted) && employeeForm.firstname.$error.required">
+                        First Name is required.
+                        </span>
+                     </td>
+                  </tr>
+                  <tr>
+                     <td>Last Name: </td>
+                     <td>
+                        <input name="lastname" type="text" ng-model="employees.lastName" required>
+                        <span  ng-show="(employeeForm.lastname.$dirty || submitted) && employeeForm.lastname.$error.required">
+                        Last Name is required.
+                        </span>
+                     </td>
+                  </tr>
+                  <tr>
+                     <td>Email: </td>
+                     <td>
+                        <input name="email" type="email" ng-model="employees.email"  required>
+                        <span  ng-show="(employeeForm.email.$dirty || submitted)&& employeeForm.email.$invalid">
+                        <span ng-show="employeeForm.email.$error.required">Email is required.</span>
+                        <span ng-show="employeeForm.email.$error.email">Invalid email address.</span>
+                        </span>
+                     </td>
+                  </tr>
+                  <tr>
+                     <td>Age: </td>
+                     <td>
+                        <input name="age" type="number" ng-model="employees.age" disabled>
+                        <span  ng-show="(employeeForm.age.$dirty || submitted)&& employeeForm.age.$invalid">
+                        <span ng-show="employeeForm.age.$error.required">Age is required.</span>
+                        </span>
+                     </td>
+                  </tr>
+                  <tr>
+                     <td>Gender: </td>
+                     <td>
+                        <input type="radio" ng-model="employees.gender" value="male" checked="checked">Male
+                        <input type="radio" ng-model="employees.gender" value="female" >Female
+                        <span  ng-show="(employees.gender ==''&& submitted)">
+                        <span>Gender is required.</span>
+                        </span>
+                     </td>
+                  </tr>
+                  <tr>
+                     <td>DOB: </td>
+                     <td>
+                        <input type="date" id="dob" name="dob" ng-model="employees.dob"  required>
+                        <span  ng-show="(employeeForm.dob.$dirty || submitted)&& employeeForm.dob.$invalid">
+                        <span ng-show="employeeForm.dob.$error.required">Date of birth is required.</span>
+                        </span>
+                     </td>
+                  </tr>
+                  <tr>
+                     <td>
+                        <button id="reset" ng-click="reset()" ng-show="!editMode">Reset</button>
+                        <button id="clear" ng-click="clearfunc()" ng-show="editMode">Clear</button>
+                     </td>
+                     <td>
+                        <button id="submit" ng-click="submit();$event.stopPropagation();" ng-show="!editMode">Submit</button>
+                        <button id="update" ng-click="update();$event.stopPropagation();" ng-show="editMode">Update</button>
+                     </td>
+                  </tr>
+               </table>
+            </fieldset>
+         </form>
+		 
+         <div style="border-width: 5px;border-style: ridge;padding-left: 14px;padding-bottom: 10px;background: lightblue;">
+            <h3>Employees Records</h3>
+            <table id="listRecord" border="2" style="background: lightgray;">
+               <tr>
+                  <th>Delete</th>
+                  <th>First Name</th>
+                  <th>Last Name</th>
+                  <th>Email</th>
+                  <th>Age</th>
+                  <th>Gender</th>
+                  <th>D.O.B.</th>
+                  <th>Update</th>
+               </tr>
+               <tr ng-repeat="emp in employees.employeesList track by $index">
+                  <td><img src="cross.png" ng-click="removeRecord($index)"></td>
+                  <td>{{ emp.firstName }}</td>
+                  <td>{{ emp.lastName }}</td>
+                  <td>{{ emp.email }}</td>
+                  <td>{{ emp.age }}</td>
+                  <td>{{ emp.gender }}</td>
+                  <td>{{ emp.dob }}</td>
+                  <td><img src="edit.png" ng-click="editRecord($index)"></td>
+               </tr>
+            </table>
+         </div>
+      </div>
+   </body>
+</html>
